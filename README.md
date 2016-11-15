@@ -19,6 +19,20 @@
 
 `git commit -m 'commit message'`
 
+### 4, add & commit
+
 add和commit两个步骤可以合并在一起
 
 `git commit -am 'commit message'`
+
+### 5, push
+
+将本地代码同步到远程仓库代码
+
+`git push origin master`
+
+### 6, pull
+
+将远程代码更新到本地
+
+`git pull origin master`
