@@ -1,0 +1,1787 @@
+# 【巴古制氧机】 接口文档 (开发版)
+
+## 目录
+
+1.  <a href="#用户注册">用户注册</a>
+2.  <a href="#发送注册/重置密码验证码">发送注册/重置密码验证码</a>
+3.  <a href="#校验验证码">校验验证码</a></a>
+4.  <a href="#用户登录">用户登录</a>
+5.  <a href="#获取用户资料">获取用户资料</a>
+6.  <a href="#上传头像">上传头像</a>
+7.  <a href="#更换用户资料头像">更换用户资料头像</a>
+8.  <a href="#获取设备编码">获取设备编码</a>
+9.  <a href="#绑定设备">绑定设备</a>
+10. <a href="#绑定微信号">绑定微信号</a>
+11. <a href="#设备列表">设备列表</a>
+12. <a href="#操控设备">操控设备</a>
+13. <a href="#房间列表">房间列表</a>
+14. <a href="#设备数据">设备数据</a>
+15. <a href="#获取年月日数据">年月日数据</a>
+16. <a href="#手机端获取设备列表">设备列表</a>
+17. <a href="#设置一个房间的氧浓度上下限">设置一个房间的氧浓度上下限</a>
+18. <a href="#设置一个房间机器开关的状态">设置一个房间机器开关的状态</a>
+19. <a href="#设置一个房间的名称">设置一个房间的名称</a>
+20. <a href="#设置一个网关设备的名称">设置一个网关设备的名称</a>
+21. <a href="#删除一个网关设备">删除一个网关设备称</a>
+22. <a href="#删除网关设备下的一个房间">删除网关设备下的一个房间</a>
+23. <a href="#添加一个网关设备下的房间">添加一个网关设备下的房间</a>
+24. <a href="#手机端获取网关设备下的房间列表">房间列表</a>
+25. <a href="#手机端获取一个房间的数据信息">房间数据信息</a>
+26.  <a href="#修改个人资料">修改个人资料</a>
+***
+
+**1\. <span id="用户注册">用户注册</span>**
+
+###### 接口功能
+
+> 新用户注册，用于登录系统，使用系统授权功能。
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/sso/newUser.action](airsep.routeyo.net/airsep/lutsoft/sso/newUser.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | loginName | true | string | 登录名称，不包含特殊字符 |
+> | loginPass | true | string | 登录密码，长度6-16 不包含特殊字符 |
+> | nickName | false | string | 昵称 |
+> | isUE | false | bool | 用户体验，true表示打开参与用户体验功能，false表示不打开 |
+> | loginWithSDK | true | bool | 使用sdk登录，true表示使用sdk登录，此时不需要提交验证码，false表示不是使用sdk登录 |
+> | age | false | int | 年龄 |
+> | zodiac | false | string | 星座 |
+> | profession | false | string | 职业 |
+> | height | false | string | 身高 |
+> | weight | false | string | 体重 |
+> | male | false | int | 性别，0表示男 1表示女 2表示其他 |
+> | mphone | false | string | 电话 |
+> | email | false | string | 电子邮箱 |
+> | seCode | false | string | 验证码 |
+
+###### 返回字段
+
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/sso/newUser.action](airsep.routeyo.net/airsep/lutsoft/sso/newUser.action)
+> 
+> 参数： loginName=13600004567& loginPass=123456789& loginWithSDK=true
+
+
+``` javascript
+{"errorCode":1000,"errorMsg":"注册成功"}
+```
+
+**2\. <span id="发送注册/重置密码验证码">发送注册/重置密码验证码</span>**
+
+###### 接口功能
+
+> 发送短信、邮箱验证码。用于注册、重置密码验证。
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/sso/sendSeCode.action](http://airsep.routeyo.net/airsep/lutsoft/sso/sendSeCode.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数(发送注册验证码）
+
+> | 参数 | 必选 | 类型 | 说明 |
+| --- | --- | --- | --- |
+| email | true | string | 邮箱/手机号码,填写手机号码或电子邮箱 |
+
+###### 请求参数(发送重置密码验证码）
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | isResetPass | true | bool | 重置密码标记，必须设置为true |
+> | loginName | true | string | 邮箱/手机号码,填写手机号码或电子邮箱 |
+
+###### 返回字段
+
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例(发送注册验证码）
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/sso/sendSeCode.action](airsep.routeyo.net/airsep/lutsoft/sso/sendSeCode.action)
+> 
+> 参数： email=13600004567
+
+``` javascript
+{"errorCode":1000,"errorMsg":"验证码已发送"}
+```
+
+**3\. <span id="校验验证码">校验验证码</span>**
+
+###### 接口功能
+
+> 验证短信、邮箱验证码正确性。用于注册、重置密码验证。
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/sso/CheckSeCode.action](http://airsep.routeyo.net/airsep/lutsoft/sso/CheckSeCode.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | loginName | true | string | 邮箱/手机号码,填写手机号码或电子邮箱 |
+> | seCode | true | string | 验证码 |
+
+###### 返回字段
+
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/sso/CheckSeCode.action](airsep.routeyo.net/airsep/lutsoft/sso/CheckSeCode.action)
+> 
+> 参数： loginName=13600004567& seCode=123456
+
+``` javascript
+{"errorCode":1000,"errorMsg":"此账号可以注册"}
+```
+
+**4\. <span id="用户登录">用户登录</span>**
+
+###### 接口功能
+
+> 用户登录，微信免注册直接登录。
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/sso/login.action](http://airsep.routeyo.net/airsep/lutsoft/sso/login.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数（普通登录）
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | loginName | true | string | 邮箱/手机号码,填写手机号码或电子邮箱 |
+> | loginPass | true | string | 登录密码 |
+> | ajax | true | bool | 只有ajax为true时返回Json格式,否则返回一个跳转地址 |
+
+###### 返回字段
+
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/sso/login.action](airsep.routeyo.net/airsep/lutsoft/sso/login.action)
+> 
+> 参数： loginName=13600004567& loginPass=123456& ajax=true
+
+```
+{"errorCode":1000,"errorMsg":""}
+
+```
+
+###### 请求参数（微信登录）
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | loginName | true | string | 微信唯一账号 |
+> | tpType | true | string | 固定值1 |
+> | ajax | true | bool | 只有ajax为true时返回Json格式,否则返回一个跳转地址 |
+
+###### 返回字段
+
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/sso/login.action](airsep.routeyo.net/airsep/lutsoft/sso/login.action)
+> 
+> 参数： loginName=oTM_Xs2ulZ_m-j1RUVa3oOjfG370&ajax=true&tpType=1
+
+```
+{"errorCode":1000,"errorMsg":""}
+```
+
+
+**5\. <span id="获取用户资料">获取用户资料</span>**
+
+###### 接口功能
+
+> 获取用户资料。需要先登录。
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/sso/toProfile.action](http://airsep.routeyo.net/airsep/lutsoft/sso/toProfile.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | ajax | true | bool | 只有ajax为true时返回Json格式,否则返回一个跳转地址 |
+
+###### 返回字段
+
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/sso/toProfile.action](http://airsep.routeyo.net/airsep/lutsoft/sso/toProfile.action)
+> 
+> 参数： 请在登录后在cookie加上JSESSIONID=aaa
+>  其中aaa表示登录成功返回时http报头中的sessionid
+> 
+> > http报文头格式：
+
+``` javascipt
+POST /bag/lutsoft/sso/toProfile.action HTTP/1.1
+Host:bgtes.routeyo.net
+User-Agent:xxx
+Accept:text/html,application/xhtml+xml,application/xml;
+Accept-Encoding:gzip,deflate
+Connection:keep-alive
+Cookie:JSESSIONID=CFD37967C6B9984400CFF2E23A9D5038
+
+```
+
+```
+{"errorCode":1000,"errorMsg":""}
+
+```
+
+**6\. <span id="上传头像">上传头像</span>**
+
+###### 接口功能
+
+> 上传头像，需要登录,需要两个步骤连续进行。 步骤1：使用上传接口上传头像文件 步骤2：使用用户资料更新接口，更新头像资料（请看7接口）
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/pkg/yumpkg.action](http://airsep.routeyo.net/airsep/lutsoft/pkg/yumpkg.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> 
+> 无参数；
+
+###### 返回字段
+
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | pkgFileCnt | int | 文件上传成功数目 |
+> | pkgIDs | string[] | 上传之后文件编码，步骤2将使用到此ID |
+> | pkgNames | string[] | 上传成功文件名称（原始名称）多文件时用来对比文件上传状态 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/pkg/yumpkg.action](airsep.routeyo.net/airsep/lutsoft/pkg/yumpkg.action)
+> 
+> 参数： 无；
+> 
+> 单文件上传时返回结果：
+
+```
+{
+"pkgFileCnt":1,
+"pkgIDs":['xxxx-xxxx-xxxxx-xxxx'],
+"pkgNames":['文件名称']
+}
+
+```
+
+> 多文件上传时返回结果：
+
+```
+{
+"pkgFileCnt":2,
+"pkgIDs":['xxxx-xxxx-xxxxx-xxxx','xxxx-xxxx-xxxxx-xxxx'],
+"pkgNames":['文件名称1','文件名称2']
+}
+
+```
+
+**7\. <span id="更换用户资料头像">更换用户资料头像</span>**
+
+###### 接口功能
+
+> 更换用户资料头像，需要登录。
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/sso/updateUser.action](http://airsep.routeyo.net/airsep/lutsoft/sso/updateUser.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | userLogoKey | true | string | 上传之后文件编码，接口6上传文件之后返回得到 |
+> | id | true | string | 用户ID，在获取资料时取得 |
+
+###### 返回字段
+
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/sso/updateUser.action](http://airsep.routeyo.net/airsep/lutsoft/sso/updateUser.action)
+> 
+> 参数： userLogoKey=31daa8ec-ddf0-4c8b-b88d-6c2bff1f5228& id=58
+
+```
+{"errorCode":1000,"errorMsg":"修改头像成功"}
+
+```
+
+**8\. <span id="获取设备编码">获取设备编码</span>**
+
+###### 接口功能
+
+> 通过设备序列号（生产序列号）获取设备编码（系统编码）。
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/device/getDeviceID.action](http://airsep.routeyo.net/airsep/lutsoft/device/getDeviceID.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | deviceSerial | true | string | 设备序号,生产厂家中获得 |
+
+###### 返回字段
+
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/device/getDeviceID.action](airsep.routeyo.net/airsep/lutsoft/device/getDeviceID.action)
+> 
+> 参数： deviceSerial=00000001
+
+```
+{
+"errorCode":1000,
+"errorMsg":"3b16fffc-ce96-4824-be35-ed109e38ecaf"
+}
+
+```
+
+**9\. <span id="绑定设备">绑定设备</span>**
+
+###### 接口功能
+
+> 用户绑定设备，将设备与用户关联。用户在APP登录之后将得到操作硬件设备权限。
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/device/binddevice.action](http://airsep.routeyo.net/airsep/lutsoft/device/binddevice.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数（直接绑定）
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | deviceID | true | string | 设备编码,使用接口8获得设备编码，注意区分设备序号与设备编码的区别 |
+> | userID | true | string | 用户编码,登录成功之后获取用户资料取得 |
+> | usable | true | bool | 绑定/解绑设备 true表示绑定 false表示解绑 |
+
+###### 返回字段
+
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/device/binddevice.action](airsep.routeyo.net/airsep/lutsoft/device/binddevice.action)
+> 
+> 参数： deviceID=3b16fffc-ce96-4824-be35-ed109e38ecaf& userID=58& usable=true
+
+```
+{"errorCode":1000,"errorMsg":""} 
+
+```
+
+###### 请求参数【微信】（登录后绑定）
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | deviceSerial | true | string | 设备机器码，可通过微信扫描获得，调用此接口需要用微信登录系统 |
+
+
+###### 返回字段
+
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/device/binddevice.action](airsep.routeyo.net/airsep/lutsoft/device/binddevice.action)
+> 
+> 参数： deviceSerial=0101000000000001
+
+```
+{"errorCode":1000,"errorMsg":""} 
+
+```
+
+**10\. <span id="绑定微信号">绑定微信号</span>**
+
+###### 接口功能
+
+> 绑定微信号进行授权登录。用于第三方账号登录，需要登录后才能调用此绑定接口，微信免注册登录不需要使用此接口。
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/sso/wxBind.action](http://airsep.routeyo.net/airsep/lutsoft/sso/wxBind.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | bind | true | string | true 为绑定账号 false表示解绑 |
+> | wxUserAgent | true | string | 微信唯一识别码 |
+
+
+###### 返回字段
+
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/sso/wxBind.action](airsep.routeyo.net/airsep//lutsoft/sso/wxBind.action)
+> 
+> 参数： bind=true&wxUserAgent=oTM_Xs2ulZ_m-j1RUVa3oOjfG370
+
+```
+{"errorCode":1000,"errorMsg":"绑定成功"} 
+
+```
+
+
+**11\. <span id="设备列表">设备列表</span>**
+
+###### 接口功能
+
+> 获取已绑定当前账号的设备列表
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/device/toDevicePage.action](http://airsep.routeyo.net/airsep/lutsoft/device/toDevicePage.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | RowStart | false | string | 分页参数 开始行，默认0 |
+> | RowSize | false | string | 分页参数 页行数，默认10 |
+> | sEcho | false | string | 分页参数值 从0开始，查询一次请+1 |
+> | ajax | false | bool | true时返回json， 否则转到设备列表页面 |
+
+
+###### 返回字段
+
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | sEcho | int | 轮值参数 |
+> | iTotalRecords | int | 总记录数 |
+> | iTotalDisplayRecords | int | 显示记录数 |
+> | aaData | object | 数据结构体内容<br> userID 用户编号 <br> showUserName 显示名称 <br>deviceSta 在线状态<br>deviceID 设备编码 <br>bindID 绑定ID（主键）<br> showDeviceName设备备注名称<br> deviceSerial 设备机器码|
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/device/toDevicePage.action](airsep.routeyo.net/airsep//lutsoft/device/toDevicePage.action)
+> 
+> 参数： sEcho=1&RowStart=0&RowSize=10&ajax=true
+
+```
+
+{
+    "sEcho": 1,
+    "iTotalRecords": 4,
+    "iTotalDisplayRecords": 4,
+    "aaData": [
+        {
+            "deviceLastLogin": "1970-01-01 08:00:00",
+            "deviceSta": 0,
+            "usable": 1,
+            "deviceID": "hgfhj",
+            "bindID": "02a05715-6bf7-4f2e-bdd8-5f410da55587"
+        },
+        {
+            "userID": "58",
+            "deviceLastLogin": "2016-11-15 17:46:43",
+            "deviceSta": 0,
+            "showUserName": "江伟雄",
+            "usable": 1,
+            "deviceID": "0d9cd3dd-734c-4978-a803-73d5c92cd2c9",
+            "bindID": "12ef4132-0bbf-4de8-b9c5-59d7c441f5d6",
+            "showDeviceName": "制氧机800",
+            "deviceSerial": "0101000000000001"
+        },
+        {
+            "userID": "146",
+            "deviceLastLogin": "1970-01-01 08:00:00",
+            "deviceSta": 0,
+            "showUserName": "15222656666",
+            "usable": 1,
+            "deviceID": "gghf",
+            "bindID": "16d6a798-b9c5-4839-b193-7586b3736d0e"
+        },
+        {
+            "userID": "139",
+            "deviceLastLogin": "2016-11-15 17:46:43",
+            "deviceSta": 0,
+            "showUserName": "admin",
+            "usable": 1,
+            "deviceID": "0d9cd3dd-734c-4978-a803-73d5c92cd2c9",
+            "bindID": "d3bdb148-b05e-4be6-8267-05b9b9926ee8",
+            "showDeviceName": "制氧机800",
+            "deviceSerial": "0101000000000001"
+        }
+    ]
+}
+
+
+```
+
+**12\. <span id="操控设备">操控设备</span>**
+
+###### 接口功能
+
+> 操作和控制设备。
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/imachine/operDevice.action](http://airsep.routeyo.net/airsep/lutsoft/imachine/operDevice.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | oper | true | string |操作指令<br> warmUP预热<br> warmDM休眠<br> digHole打孔<br> binding装订<br>  drill钻头清零<br> capillary毛管清零|
+> | deviceID | true | string | 设备ID |
+
+
+###### 返回字段
+
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/airsep/operDevice.action](airsep.routeyo.net/airsep/lutsoft/airsep/operDevice.action)
+> 
+> 参数： oper=warmUP&deviceID=0d9cd3dd-734c-4978-a803-73d5c92cd2c9
+
+```
+{"errorCode":1000,"errorMsg":"指令已发送"} 
+
+```
+
+或
+
+```
+{"errorCode":1072,"errorMsg":"设备不在线或未绑定"} 
+
+```
+
+**13\. <span id="房间列表">房间列表</span>**
+
+###### 接口功能
+
+> 获取接入网关的房间列表
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/airsep/toAddRoomPage.action](http://airsep.routeyo.net/airsep/lutsoft/airsep/toAddRoomPage.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | RowStart | false | string | 分页参数 开始行，默认0 |
+> | RowSize | false | string | 分页参数 页行数，默认10 |
+> | sEcho | false | string | 分页参数值 从0开始，查询一次请+1 |
+> | ajax | false | bool | true时返回json， 否则转到设备列表页面 |
+
+
+###### 返回字段
+
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | sEcho | int | 轮值参数 |
+> | iTotalRecords | int | 总记录数 |
+> | iTotalDisplayRecords | int | 显示记录数 |
+> | aaData | object | 数据结构体内容<br> |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/airsep/toAddRoomPage.action](airsep.routeyo.net/airsep//lutsoft/airsep/toAddRoomPage.action)
+> 
+> 参数： sEcho=1&RowStart=0&RowSize=10&ajax=true
+
+```
+{
+	"sEcho" : 1,
+	"iTotalRecords" : 2,
+	"iTotalDisplayRecords" : 2,
+	"aaData" : [{
+			"deviceTime" : "2016-10-30 18:38:35",
+			"pressure" : "100",
+			"voltage" : "220",
+			"resultID" : "2",
+			"roomName" : "200",
+			"intensity" : "0.1",
+			"cTemperature" : "24",
+			"noise" : "18",
+			"temperature" : "24",
+			"resultTime" : "2016-10-30 18:38:31",
+			"roomID" : "333562df-bf66-4e7a-8908-5559e0fb0615"
+		}
+	]
+}
+
+```
+
+
+
+**14\. <span id="房间数据">房间数据</span>**
+
+###### 接口功能
+
+> 获取房间数据（温度、气压...)
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/airsep/toDeviceData.action](http://airsep.routeyo.net/airsep/lutsoft/airsep/toDeviceData.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | RowStart | false | string | 分页参数 开始行，默认0 |
+> | RowSize | false | string | 分页参数 页行数，默认10 |
+> | sEcho | false | string | 分页参数值 从0开始，查询一次请+1 |
+> | ajax | false | bool | true时返回json， 否则转到设备列表页面 |
+
+
+###### 返回字段
+
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | sEcho | int | 轮值参数 |
+> | iTotalRecords | int | 总记录数 |
+> | iTotalDisplayRecords | int | 显示记录数 |
+> | aaData | object | 数据结构体内容<br> |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/airsep/toDeviceData.action](airsep.routeyo.net/airsep/lutsoft/airsep/toDeviceData.action)
+> 
+> 参数： sEcho=1&RowStart=0&RowSize=10&ajax=true
+
+```
+{
+	"sEcho" : 1,
+	"iTotalRecords" : 1,
+	"iTotalDisplayRecords" : 1,
+	"aaData" : [{
+			"deviceTime" : "2016-10-30 18:38:35",
+			"pressure" : "100",
+			"voltage" : "220",
+			"resultID" : "2",
+			"roomName" : "200",
+			"intensity" : "0.1",
+			"cTemperature" : "24",
+			"noise" : "18",
+			"temperature" : "24",
+			"resultTime" : "2016-10-30 18:38:31",
+			"roomID" : "333562df-bf66-4e7a-8908-5559e0fb0615"
+		}
+	]
+}
+
+```
+
+**15\. <span id="获取年月日数据">年月日数据</span>**
+
+###### 接口功能
+
+> 操作和控制设备。
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/airsep/geto2concent.action](http://airsep.routeyo.net/airsep/lutsoft/airsep/geto2concent.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | qtype | true | int |统计类型 <br> 1按年统计<br> 2按月统计<br> <br> 3按日统计<br>|
+> | st | true | string | 开始时间，qtype为1时 格式如2016-01  ，qtype为2时 格式如2016-01-01 必须是同一月的日期  qtype为3时 格式如2012-01-01 00 必须是当天的24小时|
+> | ed | true | string | 结束时间，qtype为1时 格式如2016-12  ，qtype为2时 格式如2016-01-30 必须是同一月的日期  qtype为3时 格式如2012-01-01 23 必须是当天的24小时|
+
+
+###### 返回字段
+
+返回json，内容为空时返回 []
+
+
+###### 接口示例
+
+> 地址：[http://imachine.routeyo.net/imachine/lutsoft/imachine/queryYearMonthResult.action](imachine.routeyo.net/imachine/lutsoft/imachine/queryYearMonthResult.action)
+> 
+> 参数： qtype=1&st=2016-01&ed=2016-12
+
+```
+[
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-01"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-02"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-03"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-04"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-05"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-06"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-07"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-08"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-09"
+    },
+    {
+        "o2": "20.02857",
+        "times": 7,
+        "yearMonth": "2016-10"
+    },
+    {
+        "o2": "18.333334",
+        "times": 3,
+        "yearMonth": "2016-11"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-12"
+    }
+]
+
+```
+
+> 参数： qtype=2&st=2016-10-01&ed=2016-10-31
+
+```
+[
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-01"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-02"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-03"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-04"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-05"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-06"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-07"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-08"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-09"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-10"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-11"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-12"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-13"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-14"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-15"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-16"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-17"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-18"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-19"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-20"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-21"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-22"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-23"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-24"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-25"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-26"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-27"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-28"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-29"
+    },
+    {
+        "o2": "20.199999",
+        "times": 6,
+        "yearMonth": "2016-10-30"
+    },
+    {
+        "o2": "19.0",
+        "times": 1,
+        "yearMonth": "2016-10-31"
+    }
+]
+
+
+> 参数： qtype=3&st=2016-10-30 00&ed=2016-10-30 23
+
+```js
+[
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 00"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 01"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 02"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 03"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 04"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 05"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 06"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 07"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 08"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 09"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 10"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 11"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 12"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 13"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 14"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 15"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 16"
+    },
+    {
+        "o2": "21.0",
+        "times": 2,
+        "yearMonth": "2016-10-30 17"
+    },
+    {
+        "o2": "19.1",
+        "times": 2,
+        "yearMonth": "2016-10-30 18"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 19"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 20"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 21"
+    },
+    {
+        "o2": "20",
+        "times": 1,
+        "yearMonth": "2016-10-30 22"
+    },
+    {
+        "o2": "20.5",
+        "times": 2,
+        "yearMonth": "2016-10-30 23"
+    }
+]
+```
+**16\. <span id="手机端获取设备列表">设备列表</span>**
+
+###### 接口功能
+
+> 操作和控制设备。
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/device/toDeviceo2Page.action](http://airsep.routeyo.net/airsep/lutsoft/device/toDeviceo2Page.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | day | true | String |日期格式"2016-10-30",默认当天|
+> | RowStart | true | String |查询开始行|
+> | RowSize | true | String |查询的个数|
+
+
+###### 返回字段
+
+返回json，内容为空时返回 []
+
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/device/toDeviceo2Page.action](http://airsep.routeyo.net/airsep/lutsoft/device/toDeviceo2Page.action)
+> 
+>参数
+
+```js
+{
+    "sEcho": 0,
+    "iTotalRecords": 1,
+    "iTotalDisplayRecords": 1,
+    "aaData": [
+        {
+            "o2": "20.2",
+            "deviceSta": 0,
+            "bindID": "12ef4132-0bbf-4de8-b9c5-59d7c441f5d6",
+            "deviceID": "0d9cd3dd-734c-4978-a803-73d5c92cd2c9",
+            "roomnum": 2,
+            "userID": "58",
+            "usable": 1,
+            "showUserName": "江伟雄",
+            "showDeviceName": "制氧机800"
+        }
+    ]
+}
+```
+
+**17\. <span id="设置一个房间的氧浓度上下限">设置一个房间的氧浓度上下限</span>**
+
+###### 接口功能
+
+> 设置一个房间的氧浓度上下限。
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/airsep/operDevice.action](http://airsep.routeyo.net/airsep/lutsoft/airsep/operDevice.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | deviceID | true | String |设备ID|
+> | oper | true | String |操作指令 固定值：A103|
+> | roomID | true | String |房间ID|
+> | dataSTR | true | String |数据 。格式：m25&i18，设置氧浓度（单位%）m表示最大值，i表示最小值（&需要用url转义 %26）|
+
+
+###### 返回字段
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/airsep/operDevice.action](http://airsep.routeyo.net/airsep/lutsoft/airsep/operDevice.action)
+> 
+>参数 deviceID=xxx&oper=A103&roomID=xxx&dataSTR=m25%26i18
+
+```js
+{"errorCode":1000,"errorMsg":"指令已发送"} 
+```
+
+**18\. <span id="设置一个房间机器开关的状态">设置一个房间机器开关的状态</span>**
+
+###### 接口功能
+
+> 设置一个房间机器开关的状态
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/airsep/operDevice.action](http://airsep.routeyo.net/airsep/lutsoft/airsep/operDevice.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | deviceID | true | String |设备ID|
+> | oper | true | String |操作指令 ：A100 表示开 A101表示关|
+> | roomID | true | String |房间ID|
+
+
+###### 返回字段
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/airsep/operDevice.action](http://airsep.routeyo.net/airsep/lutsoft/airsep/operDevice.action)
+> 
+>参数 deviceID=xxx&oper=A100&roomID=xxx
+
+```js
+{"errorCode":1000,"errorMsg":"指令已发送"} 
+```
+
+
+**19\. <span id="设置一个房间的名称">设置一个房间的名称</span>**
+
+###### 接口功能
+
+> 设置一个房间的名称
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/airsep/updateRoomPage.action](http://airsep.routeyo.net/airsep/lutsoft/airsep/updateRoomPage.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | deviceID | true | String |设备ID|
+> | roomID | true | String |房间ID|
+> | roomName | true | String |房间名称|
+
+
+###### 返回字段
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/airsep/updateRoomPage.action](http://airsep.routeyo.net/airsep/lutsoft/airsep/updateRoomPage.action)
+> 
+>参数 deviceID=xxx&roomID=xxx&roomName=xxx
+
+```js
+{"errorCode":1000,"errorMsg":""} 
+```
+
+
+**20\. <span id="设置一个网关设备的名称">设置一个网关设备的名称</span>**
+
+###### 接口功能
+
+> 设置一个网关设备的名称
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/device/editDevice.action](http://airsep.routeyo.net/airsep/lutsoft/device/editDevice.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | deviceID | true | String |设备ID|
+> | deviceName | true | String |设备名称|
+
+
+###### 返回字段
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/device/editDevice.action](http://airsep.routeyo.net/airsep/lutsoft/device/editDevice.action)
+> 
+>参数 deviceID=xxx&deviceName=xxx
+
+```js
+{"errorCode":1000,"errorMsg":""} 
+```
+
+
+**21\. <span id="删除一个网关设备">删除一个网关设备</span>**
+
+###### 接口功能
+
+> 删除一个网关设备
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/device/deleteBindDevice.action](http://airsep.routeyo.net/airsep/lutsoft/device/deleteBindDevice.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | bindID | true | String |设备绑定ID|
+
+###### 返回字段
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/device/deleteBindDevice.action](http://airsep.routeyo.net/airsep/lutsoft/device/deleteBindDevice.action)
+> 
+>参数 bindID=xxx
+
+```js
+{"errorCode":1000,"errorMsg":""} 
+```
+
+**22\. <span id="删除网关设备下的一个房间">删除网关设备下的一个房间</span>**
+
+###### 接口功能
+
+> 删除网关设备下的一个房间
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/airsep/deleteRoomPage.action](http://airsep.routeyo.net/airsep/lutsoft/airsep/deleteRoomPage.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | roomID | true | String |房间ID|
+
+###### 返回字段
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/airsep/deleteRoomPage.action](http://airsep.routeyo.net/airsep/lutsoft/airsep/deleteRoomPage.action)
+> 
+>参数 roomID=xxx
+
+```js
+{"errorCode":1000,"errorMsg":""} 
+```
+
+**23\. <span id="添加一个网关设备下的房间">添加一个网关设备下的房间</span>**
+
+###### 接口功能
+
+> 添加一个网关设备下的房间
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/airsep/addRoomPage.action](http://airsep.routeyo.net/airsep/lutsoft/airsep/addRoomPage.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | deviceID | true | String |设备ID|
+> | roomName | true | String |房间名称|
+
+###### 返回字段
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/airsep/addRoomPage.action](http://airsep.routeyo.net/airsep/lutsoft/airsep/addRoomPage.action)
+> 
+>参数 deviceID=xxx&roomName=xxx
+
+```js
+{"errorCode":1000,"errorMsg":""} 
+```
+**24\. <span id="手机端获取网关设备下的房间列表">房间列表</span>**
+
+返回json，内容为空时返回 []
+
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/airsep/getRoomlist.action](http://airsep.routeyo.net/airsep/lutsoft/airsep/getRoomlist.action)
+> 
+>参数
+deviceID=id0d9cd3dd-734c-4978-a803-73d5c92cd2c9
+isOnline 0关,1开 
+o2氧气浓度  
+actionTime 开机时间
+roomName 房间名称
+
+```js
+[
+    {
+        "roomID": "333562df-bf66-4e7a-8908-5559e0fb0615",
+        "roomName": "200",
+        "isOnline": 0,
+        "o2": "20",
+        "actionTime": "2016-10-17 13:08:05",
+        "rowStart": 0,
+        "rowEnd": 0,
+        "limit": 0,
+        "totalPages": 1,
+        "currentPage": 0,
+        "prevPage": 0,
+        "nextPage": 0,
+        "lastPage": 0,
+        "totalRows": 0,
+        "rowSize": 0,
+        "pageSize": 0
+    },
+    {
+        "roomID": "93774230-243b-4943-a080-a9768d1a5d3b",
+        "roomName": "201",
+        "isOnline": 0,
+        "o2": "20",
+        "actionTime": "2016-10-17 13:08:05",
+        "rowStart": 0,
+        "rowEnd": 0,
+        "limit": 0,
+        "totalPages": 1,
+        "currentPage": 0,
+        "prevPage": 0,
+        "nextPage": 0,
+        "lastPage": 0,
+        "totalRows": 0,
+        "rowSize": 0,
+        "pageSize": 0
+    }
+]
+```
+
+**25\. <span id="手机端获取一个房间的数据信息">房间数据信息</span>**
+
+###### 接口功能
+
+> 操作和控制设备。
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/airsep/getRoomdata.action](http://airsep.routeyo.net/airsep/lutsoft/airsep/getRoomdata.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | roomID | true | String |房间号333562df-bf66-4e7a-8908-5559e0fb0615|
+
+
+
+###### 返回字段
+
+返回json，内容为空时返回 ''
+
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/airsep/getRoomdata.action](http://airsep.routeyo.net/airsep/lutsoft/airsep/getRoomdata.action)
+> 
+>参数
+deviceID=id0d9cd3dd-734c-4978-a803-73d5c92cd2c9
+isOnline 0关,1开 
+o2氧气浓度  
+airquality 空气质量
+height 海拔
+temperature 温度
+humidity 湿度
+maxo2 氧上限
+mino2 氧下限
+roomName 房间名称
+
+```js
+{
+	"roomID" : "333562df-bf66-4e7a-8908-5559e0fb0615",
+	"roomName" : "200",
+	"airquality" : "好",
+	"height" : "00",
+	"temperature" : "0",
+	"resultID" : "bd500bd1-fe8c-48aa-b752-6865edae132d",
+	"humidity" : "00.00",
+	"o2" : "00.00",
+	"maxo2" : "20",
+	"mino2" : "20",
+	"isOnline" : 0
+}
+```
+**26\. <span id="修改个人资料">修改个人资料</span>**
+
+###### 接口功能
+
+> 修改个人资料。
+
+###### URL
+
+> [http://airsep.routeyo.net/airsep/lutsoft/sso/updateUser.action](http://airsep.routeyo.net/airsep/lutsoft/sso/updateUser.action)
+
+###### 支持格式
+
+> JSON
+
+###### HTTP请求方式
+
+> POST
+
+###### 请求参数
+
+> | 参数 | 必选 | 类型 | 说明 |
+> | --- | --- | --- | --- |
+> | nickName | false | string | 昵称 |
+> | age | false | int | 年龄 |
+> | zodiac | false | string | 星座 |
+> | profession | false | string | 职业 |
+> | height | false | string | 身高 |
+> | weight | false | string | 体重 |
+> | male | false | int | 性别，0表示男 1表示女 2表示其他 |
+> | mphone | false | string | 电话 |
+> | email | false | string | 电子邮箱 |
+
+###### 返回字段
+
+> | 返回字段 | 字段类型 | 说明 |
+> | --- | --- | --- |
+> | errorCode | int | 返回结果状态。1000：正常；大于1000：错误。错误码请参考错误码表 |
+> | errorMsg | string | 返回结果内容 |
+
+###### 接口示例
+
+> 地址：[http://airsep.routeyo.net/airsep/lutsoft/sso/updateUser.action](http://airsep.routeyo.net/airsep/lutsoft/sso/updateUser.action)
+> 
+> 参数： nickName=苏辉&age=18
+
+
+``` javascript
+{"errorCode":1000,"errorMsg":"用户资料修改成功"}
+```
+
+
+
+
+###### 接口功能
+
+> 获取代理商资料。
+
+###### 错误码表
+
+> | 错误码 | 错误码描述 |
+> | --- | --- |
+> | 1004 | 用户已存在、手机号码已被注册 |
+> | 1005 | 两次密码输入不一致 |
+> | 1006 | 验证码不正确 |
+> | 1007 | 登录名称不符和规范 |
+> | 1008 | 登录密码不符和规范,长度应为6-16，不包含特殊字符 |
+> | 1009 | 用户昵称不符合规范 |
+> | 1010 | 修改用户资料失败 |
+> | 1011 | 未传递正确UserLogoKey |
+> | 1012 | 未传递正确BagUserID |
+> | 1013 | 修改头像失败 |
+> | 1014 | 修改密码失败 |
+> | 1015 | 验证码发送失败 |
+> | 1020 | 设备绑定/解绑失败 |
+> | 1021 | 仅允许操作自己的设备 |
+> | 1023 | 找不到此设备编码 |
+> | 4001 | 用户名或密码不正确 |
